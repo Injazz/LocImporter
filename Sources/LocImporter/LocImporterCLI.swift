@@ -43,14 +43,13 @@ struct LocImporter: AsyncParsableCommand {
             throw ValidationError("Directory does not exist: \(path)")
         }
 
-        print("🔍 Scanning for Swift files in: \(rootURL.path)")
-        print("   Target struct: \(target)")
-        print("   Package to import: \(packageName)")
-        print("")
+        print("Scanning for Swift files in: \(rootURL.path)")
+        print("Target struct: \(target)")
+        print("Package to import: \(packageName)\n")
 
         // Step 1: Discover all typealias aliases
         let aliases = try discoverTypealiases(in: rootURL, service: service)
-        
+
         if aliases.isEmpty {
             print("No typealiases found. Nothing to migrate.")
             return
@@ -96,14 +95,14 @@ struct LocImporter: AsyncParsableCommand {
         print("  Imports added:      \(summary.importsAdded)")
         print("  References updated: \(summary.referencesUpdated)")
         if deleteTypealiases {
-            print("  Typealias files deleted: \(summary.typealiasFilesDeleted)")
+            print("Typealias files deleted: \(summary.typealiasFilesDeleted)")
         }
         print("")
 
         // Step 5: Write report if requested
         if let reportPath = report {
             try writeReport(summary, aliases: aliases, to: reportPath)
-            print("📄 Report written to: \(reportPath)")
+            print("Report written to: \(reportPath)")
         }
     }
 
@@ -188,11 +187,11 @@ struct LocImporter: AsyncParsableCommand {
         let originalLines = original.split(separator: "\n")
         let modifiedLines = modified.split(separator: "\n")
 
-        print("   --- Original ---")
+        print("--- Original ---")
         for (index, line) in originalLines.enumerated().prefix(15) {
             print("   \(index + 1): \(line)")
         }
-        print("   --- Modified ---")
+        print("--- Modified ---")
         for (index, line) in modifiedLines.enumerated().prefix(15) {
             print("   \(index + 1): \(line)")
         }
